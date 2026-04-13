@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { generateApiKey, hashApiKey } from "../../src/services/userService.js"
+import { generateApiKey, hashApiKey } from "../src/services/userService.js"
 
 describe("generateApiKey", () => {
   it("returns a non-empty string", () => {

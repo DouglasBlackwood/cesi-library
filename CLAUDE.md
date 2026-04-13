@@ -15,7 +15,7 @@ npm run build        # Bundle to dist/ (tsup, CJS + .d.ts)
 npm run seed         # Seed dev database with sample data
 ```
 
-Run a single test file: `vitest run tests/unit/apiKey.test.ts`  
+Run a single test file: `vitest run tests/apiKey.test.ts`  
 Run by test name: `vitest run -t "generateApiKey"`
 
 ## Architecture
@@ -52,4 +52,4 @@ Migrations live in `prisma/migrations/`. Apply with `npx prisma migrate deploy`.
 
 `tests/setup.ts` runs `prisma migrate deploy` once before all tests against `test.db`, then deletes all rows after each test via `$transaction`. Integration tests use `createApp(testPrisma)` + Supertest — no network needed.
 
-`tests/helpers/auth.ts` exports `createTestUser()` for setting up authenticated requests in integration tests.
+`tests/helpers/auth.ts` exports `createTestUser()` for setting up authenticated requests.

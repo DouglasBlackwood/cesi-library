@@ -1,8 +1,8 @@
 import request from "supertest"
 import { describe, expect, it } from "vitest"
-import { createApp } from "../../src/app.js"
-import { testPrisma } from "../setup.js"
-import { createTestUser } from "../helpers/auth.js"
+import { createApp } from "../src/app.js"
+import { createTestUser } from "./helpers/auth.js"
+import { testPrisma } from "./setup.js"
 
 const app = createApp(testPrisma)
 
