@@ -1,16 +1,15 @@
 # cesi-library
 
 A REST API for managing personal book libraries, built with TypeScript, Express, and SQLite.
-Used as a teaching project for an automated testing workshop.
 
-[![CI](https://github.com/YOUR_ORG/cesi-library/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/cesi-library/actions/workflows/ci.yml)
+[![CI](https://github.com/DouglasBlackwood/cesi-library/actions/workflows/ci.yml/badge.svg)](https://github.com/DouglasBlackwood/cesi-library/actions/workflows/ci.yml)
 
 ---
 
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_ORG/cesi-library.git
+git clone https://github.com/DouglasBlackwood/cesi-library.git
 cd cesi-library
 npm install          # also runs prisma generate via postinstall
 cp .env.example .env
