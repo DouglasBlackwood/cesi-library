@@ -1,6 +1,6 @@
 # cesi-library
 
-A REST API for managing personal book libraries, built with TypeScript, Express, and SQLite.
+A REST API for managing personal book libraries, built with TypeScript, Express, and SQLite.test
 
 [![CI](https://github.com/DouglasBlackwood/cesi-library/actions/workflows/ci.yml/badge.svg)](https://github.com/DouglasBlackwood/cesi-library/actions/workflows/ci.yml)
 
