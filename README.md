@@ -64,12 +64,13 @@ curl "http://localhost:3000/search?q=clean+code" \
   -H "x-api-key: <your-api-key>"
 ```
 
-## Linting & formatting
+## Linting, formatting & type checking
 
 ```bash
-npm run check     # biome lint + format check (no writes)
-npm run lint      # lint only
-npm run format    # auto-fix formatting
+npm run check       # biome lint + format check (no writes)
+npm run lint        # lint only
+npm run format      # auto-fix formatting
+npm run typecheck   # TypeScript type check (tsc --noEmit)
 ```
 
 ## Running tests
@@ -81,6 +82,14 @@ npm run test:watch # watch mode
 
 Tests use a separate `test.db` database. No manual setup required — the setup file
 runs `prisma migrate deploy` automatically before each test suite.
+
+## Pre-commit hook
+
+Husky runs the following on every commit:
+
+1. `npm run check` — lint + format check (fails on violations; run `npm run format` to fix)
+2. `npm run typecheck` — TypeScript compilation check
+3. `npm test` — full test suite
 
 ---
 

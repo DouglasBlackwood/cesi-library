@@ -10,7 +10,8 @@ npm test             # Run all tests once
 npm run test:watch   # Run tests in watch mode
 npm run check        # Lint + format check (biome, no writes)
 npm run lint         # Lint only
-npm run format       # Auto-format (writes)
+npm run format       # Auto-format (writes); run this before committing
+npm run typecheck    # TypeScript type check (tsc --noEmit)
 npm run build        # Bundle to dist/ (tsup, CJS + .d.ts)
 npm run seed         # Seed dev database with sample data
 ```
