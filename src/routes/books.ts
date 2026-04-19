@@ -11,11 +11,9 @@ export function createBooksRouter(bookService: BookService): Router {
     const user = res.locals.user as User
     const { status } = req.query
 
-    if (status !== undefined) {
-      if (!VALID_STATUSES.includes(status as BookStatus)) {
-        res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(", ")}` })
-        return
-      }
+    if (status !== undefined && !VALID_STATUSES.includes(status as BookStatus)) {
+      res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(", ")}` })
+      return
     }
 
     const books = await bookService.getBooks(user.id, status as BookStatus | undefined)

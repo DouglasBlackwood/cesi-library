@@ -5,11 +5,11 @@ export class BookService {
   constructor(private readonly bookRepository: IBookRepository) {}
 
   async getBooks(userId: string, status?: BookStatus): Promise<Book[]> {
-    return this.bookRepository.findAll(userId, status)
+    return await this.bookRepository.findAll(userId, status)
   }
 
   async createBook(userId: string, data: CreateBookDto): Promise<Book> {
-    return this.bookRepository.create(userId, data)
+    return await this.bookRepository.create(userId, data)
   }
 
   async deleteBook(userId: string, bookId: string): Promise<void> {

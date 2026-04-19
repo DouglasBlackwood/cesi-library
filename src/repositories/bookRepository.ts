@@ -6,20 +6,20 @@ export class BookRepository implements IBookRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
   async findAll(userId: string, status?: BookStatus): Promise<Book[]> {
-    return this.prisma.book.findMany({
+    return (await this.prisma.book.findMany({
       where: { userId, ...(status ? { status } : {}) },
       orderBy: { createdAt: "desc" },
-    }) as Promise<Book[]>
+    })) as Book[]
   }
 
   async create(userId: string, data: CreateBookDto): Promise<Book> {
-    return this.prisma.book.create({
+    return (await this.prisma.book.create({
       data: { userId, ...data },
-    }) as Promise<Book>
+    })) as Book
   }
 
   async findOne(bookId: string): Promise<Book | null> {
-    return this.prisma.book.findUnique({ where: { id: bookId } }) as Promise<Book | null>
+    return (await this.prisma.book.findUnique({ where: { id: bookId } })) as Book | null
   }
 
   async delete(bookId: string): Promise<void> {
