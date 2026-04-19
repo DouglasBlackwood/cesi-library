@@ -1,11 +1,18 @@
+import type { PrismaClient } from "@prisma/client"
 import request from "supertest"
-import { describe, expect, it } from "vitest"
+import { beforeEach, describe, expect, it } from "vitest"
 import { createApp } from "../src/app.js"
-import { testPrisma } from "./setup.js"
-
-const app = createApp(testPrisma)
+import { createTestDb } from "./helpers/db.js"
 
 describe("POST /users", () => {
+  let prisma: PrismaClient
+  let app: ReturnType<typeof createApp>
+
+  beforeEach(() => {
+    prisma = createTestDb()
+    app = createApp(prisma)
+  })
+
   it("creates a user and returns 201 with id, name, and apiKey", async () => {
     const res = await request(app).post("/users").send({ name: "Charlie" })
 

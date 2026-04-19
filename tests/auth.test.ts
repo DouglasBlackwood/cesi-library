@@ -1,12 +1,19 @@
+import type { PrismaClient } from "@prisma/client"
 import request from "supertest"
-import { describe, expect, it } from "vitest"
+import { beforeEach, describe, expect, it } from "vitest"
 import { createApp } from "../src/app.js"
 import { createTestUser } from "./helpers/auth.js"
-import { testPrisma } from "./setup.js"
-
-const app = createApp(testPrisma)
+import { createTestDb } from "./helpers/db.js"
 
 describe("Auth middleware", () => {
+  let prisma: PrismaClient
+  let app: ReturnType<typeof createApp>
+
+  beforeEach(() => {
+    prisma = createTestDb()
+    app = createApp(prisma)
+  })
+
   it("returns 401 on a protected route when x-api-key header is missing", async () => {
     const res = await request(app).get("/books")
     expect(res.status).toBe(401)
@@ -18,7 +25,7 @@ describe("Auth middleware", () => {
   })
 
   it("allows access with a valid API key", async () => {
-    const { apiKey } = await createTestUser(testPrisma)
+    const { apiKey } = await createTestUser(prisma)
     const res = await request(app).get("/books").set("x-api-key", apiKey)
     expect(res.status).toBe(200)
   })
