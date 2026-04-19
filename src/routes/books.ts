@@ -1,7 +1,6 @@
 import { Router } from "express"
 import type { BookService } from "../services/bookService.js"
-import type { BookStatus } from "../types/index.js"
-import type { User } from "../types/index.js"
+import type { BookStatus, User } from "../types/index.js"
 
 const VALID_STATUSES: BookStatus[] = ["to_read", "reading", "finished"]
 

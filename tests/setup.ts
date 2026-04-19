@@ -1,24 +1,25 @@
 import { execSync } from "node:child_process"
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3"
 import { PrismaClient } from "@prisma/client"
 
-process.env.DATABASE_URL = "file:./test.db"
+const TEST_DB_URL = "file:./test.db"
+process.env.DATABASE_URL = TEST_DB_URL
 
 execSync("npx prisma migrate deploy", {
-  env: { ...process.env, DATABASE_URL: "file:./test.db" },
-  stdio: "pipe",
+	env: { ...process.env, DATABASE_URL: TEST_DB_URL },
+	stdio: "pipe",
 })
 
-export const testPrisma = new PrismaClient({
-  datasources: { db: { url: "file:./test.db" } },
-})
+const adapter = new PrismaBetterSqlite3({ url: "./test.db" })
+export const testPrisma = new PrismaClient({ adapter })
 
 afterEach(async () => {
-  await testPrisma.$transaction([
-    testPrisma.book.deleteMany(),
-    testPrisma.user.deleteMany(),
-  ])
+	await testPrisma.$transaction([
+		testPrisma.book.deleteMany(),
+		testPrisma.user.deleteMany(),
+	])
 })
 
 afterAll(async () => {
-  await testPrisma.$disconnect()
+	await testPrisma.$disconnect()
 })
