@@ -36,7 +36,10 @@ export function mapSearchResult(raw: unknown): MappedBook[] {
       authors: doc.author_name ?? [],
     }
     if (doc.isbn && doc.isbn.length > 0) {
-      mapped.isbn = doc.isbn[0]
+      const isbn = doc.isbn[0]
+      if (isbn !== undefined) {
+        mapped.isbn = isbn
+      }
     }
     if (doc.cover_i) {
       mapped.coverUrl = `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`
