@@ -10,8 +10,9 @@ import { createUsersRouter } from "./routes/users.js"
 import { BookService } from "./services/bookService.js"
 import { OpenLibraryService } from "./services/openLibraryService.js"
 import { UserService } from "./services/userService.js"
+import type { IHttpClient } from "./types/IHttpClient.js"
 
-export function createApp(prisma: PrismaClient) {
+export function createApp(prisma: PrismaClient, httpClient?: IHttpClient) {
   const app = express()
   app.use(express.json())
 
@@ -19,7 +20,7 @@ export function createApp(prisma: PrismaClient) {
   const bookRepository = new BookRepository(prisma)
   const userService = new UserService(userRepository)
   const bookService = new BookService(bookRepository)
-  const openLibraryService = new OpenLibraryService(new HttpClient())
+  const openLibraryService = new OpenLibraryService(httpClient ?? new HttpClient())
 
   const auth = createAuthMiddleware(userRepository)
 
