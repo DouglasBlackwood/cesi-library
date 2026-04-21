@@ -1,7 +1,11 @@
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3"
 import { PrismaClient } from "@prisma/client"
 import { createHash, randomBytes } from "node:crypto"
+import process from "node:process"
 
-const prisma = new PrismaClient()
+const dbUrl = (process.env.DATABASE_URL ?? "file:./dev.db").replace("file:", "")
+const adapter = new PrismaBetterSqlite3({ url: dbUrl })
+const prisma = new PrismaClient({ adapter })
 
 function generateApiKey(): string {
   return randomBytes(32).toString("hex")
