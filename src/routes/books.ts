@@ -1,11 +1,26 @@
 import { Router } from "express"
 import type { BookService } from "../services/bookService.js"
 import type { BookStatus, User } from "../types/index.js"
+import { BookNotFound } from "../types/index.js"
 
 const VALID_STATUSES: BookStatus[] = ["to_read", "reading", "finished"]
 
 export function createBooksRouter(bookService: BookService): Router {
   const router = Router()
+
+  router.get("/:id", async (req, res): Promise<void> => {
+    const id = req.params.id
+    const user = res.locals.user as User
+    try {
+      const book = await bookService.getBook(id, user.id)
+      res.status(200).json(book)
+    } catch (err) {
+      if (err instanceof BookNotFound) {
+        res.status(404).json({ error: "book not found" })
+      }
+      throw err
+    }
+  })
 
   router.get("/", async (req, res): Promise<void> => {
     const user = res.locals.user as User

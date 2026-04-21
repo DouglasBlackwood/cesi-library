@@ -27,3 +27,5 @@ export interface CreateBookDto {
   coverUrl?: string
   description?: string
 }
+
+export class BookNotFound extends Error {}

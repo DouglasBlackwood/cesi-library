@@ -201,3 +201,44 @@ describe("DELETE /books/:id", () => {
     expect(res.status).toBe(403)
   })
 })
+
+
+describe("GET /books/:id", () => {
+  let prisma: PrismaClient
+  let app: ReturnType<typeof createApp>
+  let apiKey: string
+
+  beforeEach(async () => {
+    prisma = createTestDb()
+    app = createApp(prisma)
+    const user = await createTestUser(prisma)
+    apiKey = user.apiKey
+  })
+
+  it("returns a book belonging to the authenticated user", async () => {
+    const postRes = await request(app)
+      .post("/books")
+      .set("x-api-key", apiKey)
+      .send({ title: "The Pragmatic Programmer", author: "David Thomas" })
+
+    const createdBookId = postRes.body.id
+    const res = await request(app).get(`/books/${createdBookId}`).set("x-api-key", apiKey)
+
+    expect(res.status).toBe(200)
+    expect(res.body).toStrictEqual(postRes.body)
+  })
+
+  it("does not return a book belonging to another user", async () => {
+    const other = await createTestUser(prisma)
+    const postRes = await request(app)
+      .post("/books")
+      .set("x-api-key", other.apiKey)
+      .send({ title: "The Pragmatic Programmer", author: "David Thomas" })
+
+    const createdBookId = postRes.body.id
+    const res = await request(app).get(`/books/${createdBookId}`).set("x-api-key", apiKey)
+
+    expect(res.status).toBe(404)
+    expect(res.body).toStrictEqual({ error: "book not found" })
+  })
+})

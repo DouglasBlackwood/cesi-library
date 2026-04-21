@@ -4,6 +4,10 @@ import type { Book, BookStatus, CreateBookDto } from "../types/index.js"
 export class BookService {
   constructor(private readonly bookRepository: IBookRepository) {}
 
+  async getBook(bookId: string, userId: string): Promise<Book> {
+    return await this.bookRepository.find(bookId, userId)
+  }
+
   async getBooks(userId: string, status?: BookStatus): Promise<Book[]> {
     return await this.bookRepository.findAll(userId, status)
   }
